@@ -1,0 +1,7 @@
+baseURL: "https://example.org/"
+languageCode: "en-us"
+title: "PSAI"
+frontmatter:
+  format: yaml
+theme: "tale"
+disableKinds: ["section"]
