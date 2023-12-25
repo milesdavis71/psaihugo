@@ -31,16 +31,29 @@
     #search-results a:hover {
         background-color: dodgerblue;
     }
+
+    #search-results.hide {
+        display: none;
+    }
 </style>
-<input type="text" id="search" placeholder="Keresés">
-<div id="search-results">
-    <a href="#">Result 1</a>
-    <a href="#">Result 2</a>
-    <a href="#">Result 3</a>
+<input type="text" id="search" placeholder="Find">
+<div id="search-results" class="hide">
 </div>
 <script src="https://unpkg.com/lunr/lunr.js"></script>
-
 <script>
+    const search = document.getElementById('search');
+    const results = document.getElementById('search-results');
+
+    // Show results only on focus
+    search.addEventListener('focus', e => {
+        results.classList.remove('hide')
+    })
+    search.addEventListener('blur', e => {
+        setTimeout(() => {
+            results.classList.add('hide')
+        }, 100)
+    })
+
     var documents = [{
         "name": "Lunr",
         "text": "Like Solr, but much smaller, and not as bright."
@@ -59,5 +72,20 @@
         documents.forEach(function (doc) {
             this.add(doc)
         }, this)
+    })
+
+    // Add results to HTML
+    search.addEventListener('keyup', function () {
+        results.innerHTML = ''
+        if (!this.value) return
+
+        // Perform search from input value
+        let lunrResults = window.idx.search(this.value);
+        lunrResults.forEach(result => {
+            let resultNode = document.createElement('a')
+            resultNode.innerText = result.ref
+            results.appendChild(resultNode)
+        })
+
     })
 </script>
