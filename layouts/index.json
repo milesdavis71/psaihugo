@@ -1,8 +1,9 @@
 [
-    {{- range $i, $e := .Site.RegularPages -}}
-    {{ cond (eq $i 0) "" "," }}
+    {{- range $index, $element := .Site.RegularPages -}}
+    {{ cond (eq $index 0) "" "," }}
+    {
         "meta":"{{.Title}}||{{.RelPermalink}}",
-        "title":"{{.Title}}"
+        "title":"{{.Title}}",
         "content":"{{.PlainWords}}"
     }
     {{- end -}}
